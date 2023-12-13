@@ -1,0 +1,89 @@
+package com.example.myrestaurant_v6;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+public class Update_Activity extends AppCompatActivity {
+    EditText vnom,vadresse,vphone,vweb;
+    RadioGroup vtype;
+    RadioButton firstRadio;
+    int position;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_update);
+
+        vnom = findViewById(R.id.nom);
+        vadresse =findViewById(R.id.adresse);
+        vphone =findViewById(R.id.phone);
+        vweb =findViewById(R.id.web);
+        vtype =findViewById(R.id.type);
+
+        position=getIntent().getExtras().getInt("position");
+
+        Restaurant r=MainActivity.model.get(position);
+        vnom.setText(r.nom);
+        vadresse.setText(r.adresse);
+        vphone.setText(r.phone);
+        vweb.setText(r.web);
+
+        if(r.type.equals("onTable")) vtype.check(R.id.onTable);
+        if(r.type.equals("delivery")) vtype.check(R.id.delivery);
+        if(r.type.equals("takeAway")) vtype.check(R.id.takeAway);
+    }
+
+
+    public void modifier_restaurant(View v){
+
+        String nom,adresse,phone , web, type="";
+        Restaurant restaurant;
+
+        nom=vnom.getText().toString();
+        adresse =vadresse.getText().toString();
+        phone=vphone.getText().toString();
+        web=vweb.getText().toString();
+
+        switch ( vtype.getCheckedRadioButtonId()){
+
+            case R.id.onTable:
+                type="onTable";
+                break;
+
+            case R.id.delivery:
+                type="delivery";
+                break;
+
+            case R.id.takeAway:
+                type="takeAway";
+                break;
+
+        }
+
+        restaurant=MainActivity.adapter.getItem(position);
+        restaurant.nom =nom;
+        restaurant.adresse =adresse;
+        restaurant.phone =phone;
+        restaurant.web =web;
+        restaurant.type =type;
+
+         MainActivity.helper.update(restaurant);   
+
+
+
+MainActivity.adapter.notifyDataSetChanged();    
+finish();             
+
+
+
+    }
+
+
+
+
+
+}

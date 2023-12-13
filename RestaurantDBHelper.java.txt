@@ -1,0 +1,142 @@
+package com.example.myrestaurant_v6;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
+
+public class RestaurantDBHelper extends SQLiteOpenHelper {
+
+private static final String DATABASE_NAME = "mymesrestaurants1.db"; 
+private static final int SCHEMA_VERSION = 3;                      
+
+public RestaurantDBHelper(Context context) {
+
+super(context ,DATABASE_NAME,null, SCHEMA_VERSION);  
+
+Log.d("bdd", "calling constructor of open helper");
+getReadableDatabase();  }
+
+public void onCreate(SQLiteDatabase db){  
+db.execSQL("CREATE TABLE restaurants (_id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, address TEXT, type TEXT ,phone TEXT, web TEXT );" );
+Log.d(  "bdd", "onCreate");}
+
+
+
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {//queries taht update schema from 1 to 2
+ Log.d(  "bdd", "onUpgrade Called for  shema "+oldVersion+"->"+ newVersion);
+
+switch (oldVersion) {
+ case 1:
+                //db.execSQL ("ALTER TABLE restaurants ADD 
+
+COLUMN email TEXT");
+                //db.execSQL("ALTER TABLE restaurants ADD COLUMN 
+
+twitter TEXT");
+                Log.d("bdd", "onUpgrade from version 1 to " + 
+
+SCHEMA_VERSION);
+                break;
+            case 2:
+                //db.execSQL("ALTER TABLE restaurants ADD COLUMN twitter TEXT");
+                Log.d("bdd", "onUpgrade from version 2 to " + SCHEMA_VERSION);
+                break;
+        }
+    }
+
+
+ public void loadFromDB(ArrayList <Restaurant> arrayList{     
+
+
+   String  query ="SELECT _id,name,address,type,phone,web FROM restaurants";    
+
+
+Cursor cursor=getReadableDatabase().rawQuery(query,null);  
+
+  Restaurant r;   
+ cursor.moveToFirst();             
+
+       while (!cursor.isAfterLast()){ 
+   
+      r = new Restaurant();                                                  
+     r.set_id(cursor.getLong(0)); 
+         
+    
+     r.setNom(cursor.getString(1));          
+     r.setAdresse(cursor.getString(2));
+     r.setType(cursor.getString(3));
+     r.setPhone(cursor.getString(4));
+     r.setWeb(cursor.getString(5));
+
+      arrayList.add(r);     
+
+      cursor.moveToNext();
+
+
+
+
+ }
+Log.d("bdd","loadFromDB , found"+arrayList.size()+"records");
+ }
+
+
+   ---- public long insert(Restaurant restaurant){  
+
+
+    ContentValues cv= new ContentValues();     
+    
+
+    cv.put("name",restaurant.getNom());          
+  awal parametre bikun esm l field bl database msh bl classrestaurant w hadda bhet l valeur
+
+    cv.put("address",restaurant.getAdresse());
+    cv.put("type",restaurant.getType());
+    cv.put("phone",restaurant.getPhone());
+    cv.put("web",restaurant.getWeb());   
+                                             
+                                                                                                                                                    
+                                                
+     long _id = getWritableDatabase().insert("restaurants","name",cv); 
+
+     return _id;
+     }
+
+ 
+
+     ------ public void delete(long _id){                             
+ 
+       getWritableDatabase().delete("restaurants","_id="+_id,null);  
+
+    
+      }
+
+
+     ------- public void update(Restaurant restaurant){
+
+        ContentValues cv= new ContentValues();
+
+        cv.put("name",restaurant.getNom());
+        cv.put("address",restaurant.getAdresse());
+        cv.put("type",restaurant.getType());
+        cv.put("phone",restaurant.getPhone());
+        cv.put("web",restaurant.getWeb());
+
+        long _id =restaurant.get_id();               
+
+
+
+        getWritableDatabase().update("restaurants",cv,"_id="+_id,null);
+
+    }
+
+
+
+
+
+
+}

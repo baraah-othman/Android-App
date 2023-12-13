@@ -1,0 +1,70 @@
+package com.example.myrestaurant_v6;
+
+import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
+
+
+public class RestaurantAdapter extends ArrayAdapter<Restaurant> {
+    private ArrayList<Restaurant> model;
+
+    public RestaurantAdapter(Context context, ArrayList<Restaurant> model) {
+        super(context, android.R.layout.simple_list_item_1,model);
+        this.model=model;
+    }
+
+
+    public View getView(int position, View row, ViewGroup parent){
+        Restaurant r =model.get(position);
+
+      if (row==null){
+            LayoutInflater inflater = ((Activity)super.getContext()).getLayoutInflater();
+            row = inflater.inflate(R.layout.row,parent, false);
+                  }
+
+    
+          TextView vname =  (TextView)row.findViewById(R.id.row_name);
+        TextView vadresse =  (TextView)row.findViewById(R.id.row_adresse);
+        TextView vphone =  (TextView)row.findViewById(R.id.row_phone);
+        TextView vweb =  (TextView)row.findViewById(R.id.row_web);
+
+       ImageView vtype=(ImageView) row.findViewById(R.id.row_type);
+
+        Button bt_del = (Button)row.findViewById(R.id.bt_delete);
+        bt_del.setTag(position);  
+
+        Button bt_call = (Button)row.findViewById(R.id.bt_call);
+        bt_call.setTag(position);
+
+        Button bt_browse= (Button)row.findViewById(R.id.bt_browse);
+        bt_browse.setTag(position);
+
+
+        vname.setText(r.nom);
+        vadresse.setText(r.adresse);
+        vphone.setText(r.phone);
+        vweb.setText(r.web);
+
+        if(r.type.equals("onTable"))       
+             vtype.setImageResource(R.drawable.red);
+        if(r.type.equals("delivery"))
+            vtype.setImageResource(R.drawable.blue);
+        if(r.type.equals("takeAway"))
+            vtype.setImageResource(R.drawable.yellow);
+
+
+            return row ;
+    }
+
+
+
+}

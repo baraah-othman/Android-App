@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Name :"
+            android:textSize="11sp"
+            />
+
+        <TextView
+            android:id="@+id/row_name"
+            android:layout_width="0dip"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:textColor="#0000FF"
+            android:textSize="11sp"
+        />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Adresse :"
+            android:textSize="11sp"
+            />
+
+        <TextView
+            android:id="@+id/row_adresse"
+            android:layout_width="0dip"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:textColor="#0000FF"
+            android:textSize="11sp"
+            />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Phone :"
+            android:textSize="11sp"
+            />
+
+        <TextView
+            android:id="@+id/row_phone"
+            android:layout_width="0dip"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:textColor="#0000FF"
+            android:textSize="11sp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="web :"
+            android:textSize="11sp"
+            />
+
+        <TextView
+            android:id="@+id/row_web"
+            android:layout_width="0dip"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:textColor="#0000FF"
+            android:textSize="11sp"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/row_type"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/yellow"
+
+            />
+
+        <Button
+            android:id="@+id/bt_delete"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
+            android:text="Delete"
+            android:textSize="11sp"
+            android:onClick="deleteResto"
+            android:focusable="false"
+            />
+        <Button
+            android:id="@+id/bt_call"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Call"
+            android:textSize="11sp"
+            android:onClick="callResto"
+            android:focusable="false"
+            />
+        <Button
+            android:id="@+id/bt_browse"
+            android:layout_width="0dip"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Browse"
+            android:textSize="11sp"
+            android:onClick="browseResto"
+            android:focusable="false"
+            />
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

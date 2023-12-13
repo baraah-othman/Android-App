@@ -1,0 +1,224 @@
+package com.example.myrestaurant_v6;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import com.example.myrestaurant_v6.R;
+
+import java.util.ArrayList;
+
+public class MainActivity extends AppCompatActivity {
+EditText vnom,vadresse,vphone,vweb;
+RadioGroup vtype;
+RadioButton firstRadio; 
+     static ArrayList<Restaurant> model;
+     static RestaurantAdapter adapter;  
+     ListView vlist;
+ static RestaurantDBHelper helper ;   ///am 3aref helper 
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        vnom =findViewById(R.id.nom);
+        vadresse =findViewById(R.id.adresse);
+        vphone =findViewById(R.id.phone);
+        vweb =findViewById(R.id.web);
+
+        vtype =(RadioGroup)findViewById(R.id.type);
+        model=new ArrayList<>();
+
+        adapter=new RestaurantAdapter(this, model);   
+
+//baaml initialisation ll helper bl constucteur 
+
+       helper= new RestaurantDBHelper(this);          
+
+   /// add lal database
+
+       helper.loadFromDB(model);                    
+
+  //a3mol call ll methode load
+
+        firstRadio=(RadioButton)findViewById(R.id.onTable);
+        Log.d("activity_lifecycle", "Activity Created");
+
+        
+    }
+
+
+
+
+    public boolean onCreateOptionsMenu(Menu menu){
+
+        getMenuInflater().inflate(R.menu.mymenu,menu);
+        return true;
+    }
+
+
+
+
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        Intent intent;
+        intent=new Intent(this,ViewActivity.class);  
+        startActivity(intent);
+
+         
+
+        return true;
+    }
+
+
+
+
+
+void addSomeRest(){     
+        Restaurant r;
+        adapter.add(new Restaurant("rest1","1","onTable","111","www"));
+        adapter.add(new Restaurant("rest2","2","delivery","222","www"));
+        adapter.add(new Restaurant("rest3","3","takeAway","333","www"));
+}
+
+
+
+
+
+
+    public void ajouter_restaurant(View v){
+String nom,adresse,phone , web, type="";
+Restaurant restaurant;
+
+nom=vnom.getText().toString();
+adresse =vadresse.getText().toString();
+        phone=vphone.getText().toString();
+        web=vweb.getText().toString();
+
+switch ( vtype.getCheckedRadioButtonId()){
+
+    case R.id.onTable:
+        type="onTable";
+        break;
+
+    case R.id.delivery:
+        type="delivery";
+        break;
+
+    case R.id.takeAway:
+        type="takeAway";
+        break;
+
+}
+
+
+ restaurant=new Restaurant(nom,adresse,type,phone , web);  
+     adapter.add(restaurant);
+     long _id= helper.insert(restaurant);  
+
+
+     restaurant.set_id(_id);               
+
+
+
+       
+
+ Toast.makeText(  this,"You have "+model.size()+"restaurants" ,Toast.LENGTH_SHORT).show();
+vnom.setText("");   
+vadresse.setText("");
+        vphone.setText("");
+        vweb.setText("");
+ firstRadio.setChecked(true);  
+vnom.requestFocus();
+
+    }
+
+
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("activity_lifecycle", "Activity started");
+
+    }
+    protected void onResume() {
+        super.onResume();
+        Log.d("activity_lifecycle", "Activity resumed");
+
+    }
+    protected void onPause() {
+        super.onPause();
+        Log.d("activity_lifecycle", "Activity paused");
+
+    }
+    protected void onStop() {
+        super.onStop();
+        Log.d("activity_lifecycle", "Activity stoped");
+
+    }
+    public void onRestart(){
+        super.onRestart();
+        Log.d("activity_lifecycle", "Activity restarted");
+    }
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("activity_lifecycle", "Activity destroyed");
+    }
+
+
+    public void onSaveInstanceState(Bundle savedInstanceState) {   
+        super.onSaveInstanceState(savedInstanceState);
+        Log.d("InstanceState","........onSaveInstanceState called......");
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d("InstanceState","........onRestaureInstanceState called......");
+    }
+
+
+
+    public void deleteResto(View v){
+        int position =(int)v.getTag();   
+        MainActivity.helper.delete(model.get(position).get_id());         
+        MainActivity.model.remove(position);   
+        MainActivity.adapter.notifyDataSetChanged();  
+    }
+
+ public void callResto(View v){
+        int position =(int)v.getTag();
+String phone =model.get(position).phone;
+      Uri uri =Uri.parse("tel:"+phone);
+        Intent intent =new Intent(Intent.ACTION_DIAL,uri);
+        startActivity(intent);
+
+    }
+
+    public void browseResto(View v){
+        int position =(int)v.getTag();
+        String web =model.get(position).web;
+        Uri uri =Uri.parse("http://"+web);
+        Intent intent =new Intent(Intent.ACTION_VIEW,uri);
+        startActivity(intent);
+
+
+    }
+
+
+
+}
